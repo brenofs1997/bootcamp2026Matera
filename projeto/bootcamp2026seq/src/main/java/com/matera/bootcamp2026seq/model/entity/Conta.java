@@ -1,17 +1,65 @@
 package com.matera.bootcamp2026seq.model.entity;
 
+import jakarta.persistence.*;
+
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
+@Entity
+@Table(name = "CONTA")
 public class Conta {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @Column(name = "NOME", nullable = false)
     private String nome;
+
+    @Column(name = "NUMERO_CONTA", nullable = false, unique = true)
     private Integer numConta;
+
+    @Column(name = "SALDO", nullable = false)
     private BigDecimal saldo;
+
+    @Column(name = "ABERTURA", nullable = false)
     private LocalDate abertura;
+
+    @Enumerated(EnumType.ORDINAL)
+    @Column(name = "TIPO_CONTA", nullable = false)
+    private TipoConta tipoConta;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "STATUS_CONTA", nullable = false)
+    private StatusConta statusConta;
+
+    public TipoConta getTipoConta() {
+        return tipoConta;
+    }
+
+    public void setTipoConta(TipoConta tipoConta) {
+        this.tipoConta = tipoConta;
+    }
+
+    public StatusConta getStatusConta() {
+        return statusConta;
+    }
+
+    public void setStatusConta(StatusConta statusConta) {
+        this.statusConta = statusConta;
+    }
 
     public Conta() {
 
+    }
+
+    public Conta(Long id, String nome, Integer numConta, BigDecimal saldo, LocalDate abertura, TipoConta tipoConta, StatusConta statusConta) {
+        this.id = id;
+        this.nome = nome;
+        this.numConta = numConta;
+        this.saldo = saldo;
+        this.abertura = abertura;
+        this.tipoConta = tipoConta;
+        this.statusConta = statusConta;
     }
 
     public Conta(String nome, Integer numConta, BigDecimal saldo, LocalDate abertura) {
@@ -43,6 +91,10 @@ public class Conta {
 
     public void setSaldo(BigDecimal saldo) {
         this.saldo = saldo;
+    }
+
+    public void credito(BigDecimal valor) {
+        this.saldo.add(valor);
     }
 
     public LocalDate getAbertura() {

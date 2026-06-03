@@ -1,35 +1,22 @@
 package com.matera.bootcamp2026seq.model.repository;
 
 import com.matera.bootcamp2026seq.model.entity.Conta;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.stereotype.Repository;
 
-import java.math.BigDecimal;
-import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Optional;
 
-public class ContaRepository {
-    public ContaRepository() {
-    }
+@Repository
+public interface ContaRepository extends JpaRepository<Conta,Long> {
 
-    public Conta getConta(Long id){
-        Conta conta = new Conta();
-        //Faker faker = new faker();
-        conta.setId(id);
-        conta.setNumConta(122);//(faker.numer().randomDigit());
-        conta.setNome("Jon");//(faker.name().firstName());
-        conta.setSaldo(BigDecimal.valueOf(1000));
-        conta.setAbertura(LocalDate.now());
+    Optional<Conta> findByNumConta(Integer numConta);
 
-        return conta;
-    }
+    @Query("SELECT conta FROM Conta  conta WHERE conta.numConta = :numConta")
+    Optional<Conta> jFindByNumConta(Integer numConta);
 
-    public List<Conta> getContas(){
-        List<Conta> contas = new ArrayList<>();
-        for(long i = 0; i<10 ; i++){
-            contas.add(
-                    getConta(i)
-            );
-        }
-        return contas;
-    }
+    @Query(value = "SELECT * FROM Conta  conta WHERE NUMERO_CONTA = :numConta",nativeQuery = true)
+    Optional<Conta> sFindByNumConta(Integer numConta);
+
+    void salvarConta(Conta conta);
 }

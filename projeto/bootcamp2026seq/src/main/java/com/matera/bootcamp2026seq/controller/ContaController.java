@@ -3,10 +3,9 @@ package com.matera.bootcamp2026seq.controller;
 import com.matera.bootcamp2026seq.model.dto.ContaDTO;
 import com.matera.bootcamp2026seq.model.service.ContaService;
 import jakarta.websocket.server.PathParam;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 @RestController
@@ -32,4 +31,16 @@ public class ContaController {
 
         return ResponseEntity.ok(contaDTOS);
     }
+
+    @PostMapping
+    public void criarConta(@RequestBody ContaDTO contaDTO) throws InterruptedException{
+        contaService.criarConta(contaDTO);
+        System.out.println("Conta criada com sucesso");
+       // return ResponseEntity.status(HttpStatus.CREATED).body(criada);
+    }
+    @DeleteMapping("/{id}")
+    public void deletarConta(){
+
+    }
+
 }
